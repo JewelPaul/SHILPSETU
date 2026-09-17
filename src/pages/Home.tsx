@@ -332,15 +332,13 @@ export default function Home() {
                 <div className="relative rounded-lg overflow-hidden h-44 bg-stone-100 border border-stone-200 flex items-center justify-center">
                   <img
                     src={
-                      enhanceMode === 'raw'
-                        ? resolveAssetUrl('/images/ai-cleanup/pot-cleanup-before.jpg')
-                        : resolveAssetUrl('/images/ai-cleanup/pot-cleanup-after.jpg')
+                      resolveAssetUrl(
+                        enhanceMode === 'raw'
+                          ? '/images/products/terracotta/terracotta-03.jpg'
+                          : '/images/products/terracotta/terracotta-01.jpg'
+                      )
                     }
-                    alt={
-                      enhanceMode === 'raw'
-                        ? 'Raw workshop photograph before AI cleanup'
-                        : 'Studio-grade cleaned photo after AI cleanup'
-                    }
+                    alt="Before and after enhancement"
                     className="w-full h-full object-cover transition-all duration-300"
                   />
                   <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-stone-900/80 text-white text-[10px] font-mono backdrop-blur-xs">
