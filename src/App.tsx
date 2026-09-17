@@ -42,6 +42,7 @@ export default function App() {
             <RecentlyViewedProvider>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/index.html" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/how-it-works" element={<HowItWorks />} />
                 <Route path="/crafts" element={<CraftDiscovery />} />
