@@ -23,9 +23,9 @@ const MIME = {
 
 const server = http.createServer((req, res) => {
   let urlPath = req.url.split('?')[0];
-  if (urlPath.startsWith('/SIH-WEBSITE/')) {
-    urlPath = urlPath.slice('/SIH-WEBSITE'.length);
-  } else if (urlPath === '/SIH-WEBSITE') {
+  if (urlPath.startsWith('/SHILPSETU/')) {
+    urlPath = urlPath.slice('/SHILPSETU'.length);
+  } else if (urlPath === '/SHILPSETU') {
     urlPath = '/';
   }
   let filePath = path.join(DIST, urlPath);

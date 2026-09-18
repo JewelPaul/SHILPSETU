@@ -4,7 +4,7 @@ import { fileURLToPath, URL } from 'node:url';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: process.env.VITE_BASE || (mode === 'production' ? '/SIH-WEBSITE/' : '/'),
+  base: process.env.VITE_BASE || (mode === 'production' ? '/SHILPSETU/' : '/'),
   plugins: [react()],
   resolve: {
     alias: {
