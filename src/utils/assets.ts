@@ -1,6 +1,6 @@
 /**
  * Safely resolves an asset path against Vite's BASE_URL.
- * Supports local dev (`/`) and GitHub Pages (`/SIH-WEBSITE/`).
+ * Supports local dev (`/`) and GitHub Pages (`/SHILPSETU/`).
  */
 export function resolveAssetUrl(url?: string | null): string {
   if (!url) return '';
