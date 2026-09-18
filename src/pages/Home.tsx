@@ -33,7 +33,7 @@ export default function Home() {
 
   // Selected category filtering for Craft Discovery
   const filteredProducts = useMemo(() => {
-    let pool = products;
+    let pool = [...products];
     if (selectedCat !== 'all') {
       pool = pool.filter((p) => {
         const cId = p.categoryId?.toLowerCase() || '';
@@ -41,10 +41,16 @@ export default function Home() {
         const target = selectedCat.toLowerCase();
         return cId.includes(target) || cName.includes(target);
       });
+      pool.sort((a, b) => (b.isFeatured3D ? 1 : 0) - (a.isFeatured3D ? 1 : 0));
+      return pool.slice(0, 16);
     }
 
-    // Default curated list across distinct categories
+    // Default curated list with the 4 featured 3D models at the top
     const curatedIds = [
+      '3d-pot-001', // Handcrafted Terracotta Urn & Storage Pot (GLB)
+      '3d-pot-002', // Artisanal Glazed Celadon Storage Pot (GLB)
+      '3d-vase-001', // Hand-Painted Floral Motif Ceramic Vase (GLB)
+      '3d-vase-002', // Heritage Ceramic Floral Display Vase (GLB)
       'tc-1', // Terracotta Water Carafe
       'pt-1', // Glazed Ceramic Bowl
       'hs-1', // Banarasi Katan Silk Saree
@@ -57,21 +63,13 @@ export default function Home() {
       'tc-2', // Terracotta Handi Cooking Pot
       'pt-2', // Jaipur Blue Pottery Floral Vase
       'wd-2', // Channapatna Lacquered Wooden Stacking Toy
-      'dk-2', // Pure Brass Dancing Peacock Urli
-      'bm-2', // Ribbed Bamboo Fruit Basket
-      'hs-2', // Kanchipuram Pure Zari Silk Saree
-      'jt-2', // Hand-Braided Jute & Hemp Floor Rug
     ];
 
     const curated = curatedIds
       .map((id) => products.find((p) => p.id === id))
       .filter((p): p is typeof products[number] => Boolean(p));
 
-    if (selectedCat === 'all') {
-      return curated.slice(0, 16);
-    }
-
-    return pool.slice(0, 16);
+    return curated.slice(0, 16);
   }, [products, selectedCat]);
 
   // Rhythmic masonry aspect ratios

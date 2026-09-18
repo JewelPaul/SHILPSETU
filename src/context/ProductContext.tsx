@@ -12,7 +12,7 @@ interface ProductContextType {
   resetDemoData: () => void;
 }
 
-const STORAGE_KEY = 'shilpsetu_products_v2';
+const STORAGE_KEY = 'shilpsetu_products_v3';
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
@@ -23,13 +23,16 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed.map((p: Product) => ({
-            ...p,
-            image: resolveAssetUrl(p.image),
-            model3D: p.model3D ? resolveAssetUrl(p.model3D) : undefined,
-            gallery: p.gallery ? p.gallery.map(resolveAssetUrl) : [],
-            images: p.images ? p.images.map(resolveAssetUrl) : [],
-          }));
+          const has3D = parsed.some((p: Product) => p.isFeatured3D);
+          if (has3D) {
+            return parsed.map((p: Product) => ({
+              ...p,
+              image: resolveAssetUrl(p.image),
+              model3D: p.model3D ? resolveAssetUrl(p.model3D) : undefined,
+              gallery: p.gallery ? p.gallery.map(resolveAssetUrl) : [],
+              images: p.images ? p.images.map(resolveAssetUrl) : [],
+            }));
+          }
         }
       }
     } catch {

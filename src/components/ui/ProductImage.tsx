@@ -1,4 +1,4 @@
-import { useState, type ImgHTMLAttributes } from 'react';
+import { useState, useEffect, type ImgHTMLAttributes } from 'react';
 import { FALLBACK_IMAGE } from '@/data/images';
 import { resolveAssetUrl } from '@/utils/assets';
 
@@ -15,6 +15,11 @@ export function ProductImage({
 }: Props) {
   const [hasError, setHasError] = useState(false);
   const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setHasError(false);
+    setLoaded(false);
+  }, [src]);
 
   // If src is invalid or empty, use fallback immediately
   const validSrc = (!src || src === 'undefined' || src.trim() === '') ? FALLBACK_IMAGE : resolveAssetUrl(src);

@@ -17,13 +17,10 @@ export function resolveAssetUrl(url?: string | null): string {
 
   const base = import.meta.env.BASE_URL || '/';
   const cleanBase = base.endsWith('/') ? base : `${base}/`;
-  const cleanPath = url.startsWith('/') ? url.slice(1) : url;
 
-  // Prevent duplicate prefixing if the path already starts with the repo base
-  const trimmedBase = base.replace(/^\/|\/$/g, '');
-  if (trimmedBase && cleanPath.startsWith(trimmedBase + '/')) {
-    return `/${cleanPath}`;
-  }
+  // Strip leading slash and any obsolete or current base prefixes (e.g. 'SIH-WEBSITE/', 'SHILPSETU/')
+  let cleanPath = url.startsWith('/') ? url.slice(1) : url;
+  cleanPath = cleanPath.replace(/^(SIH-WEBSITE|SHILPSETU)\//, '');
 
   return `${cleanBase}${cleanPath}`;
 }
