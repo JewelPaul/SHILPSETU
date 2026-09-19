@@ -9,13 +9,21 @@ export default function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!email.trim() || !password.trim()) {
+      setError('Please enter both your email and password.');
+      return;
+    }
+    setError('');
     setLoading(true);
     try {
-      login();
+      login('both', {
+        email: email.trim(),
+      });
       navigate('/profile');
     } finally {
       setLoading(false);
@@ -39,6 +47,11 @@ export default function Login() {
             onSubmit={handleSubmit}
             className="bg-white border border-stone-200/80 rounded-xl p-7 sm:p-8 space-y-5 shadow-xs"
           >
+            {error && (
+              <div className="p-2.5 rounded-md bg-red-50 border border-red-200 text-red-700 text-xs font-sans">
+                {error}
+              </div>
+            )}
             <div>
               <label className="block text-xs font-medium text-stone-700 font-sans mb-1.5">
                 Email

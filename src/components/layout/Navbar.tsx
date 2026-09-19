@@ -63,10 +63,10 @@ export function Navbar() {
               How It Works
             </Link>
             <Link
-              to={isLoggedIn && (user?.role === 'artisan' || user?.role === 'both') ? '/seller/orders' : '/seller'}
+              to={isLoggedIn && (user?.role === 'artisan' || user?.role === 'seller' || user?.role === 'both') ? '/seller/orders' : '/seller'}
               className="text-xs font-medium tracking-wider uppercase px-2.5 py-1 rounded-full bg-stone-100 hover:bg-[#8C3B1E]/10 text-stone-800 hover:text-[#8C3B1E] transition-all border border-stone-200/80"
             >
-              {isLoggedIn && (user?.role === 'artisan' || user?.role === 'both') ? 'Artisan Studio' : 'Sell on SHILPSETU'}
+              {isLoggedIn && (user?.role === 'artisan' || user?.role === 'seller' || user?.role === 'both') ? 'Artisan Studio' : 'Sell on SHILPSETU'}
             </Link>
           </nav>
 
@@ -120,20 +120,29 @@ export function Navbar() {
                 </span>
               </Link>
             ) : (
-              <div className="hidden sm:flex items-center gap-3 text-xs tracking-wide font-medium">
+              <>
                 <Link
                   to="/login"
-                  className="text-stone-700 hover:text-[#8C3B1E] transition-colors"
+                  className="sm:hidden p-1.5 text-stone-700 hover:text-stone-950 transition-colors"
+                  aria-label="Log in"
                 >
-                  Log in
+                  <UserIcon size={17} strokeWidth={1.75} />
                 </Link>
-                <Link
-                  to="/signup"
-                  className="text-stone-900 hover:text-[#8C3B1E] border border-stone-300 rounded px-2.5 py-1 transition-colors"
-                >
-                  Sign up
-                </Link>
-              </div>
+                <div className="hidden sm:flex items-center gap-3 text-xs tracking-wide font-medium">
+                  <Link
+                    to="/login"
+                    className="text-stone-700 hover:text-[#8C3B1E] transition-colors"
+                  >
+                    Log in
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="text-stone-900 hover:text-[#8C3B1E] border border-stone-300 rounded px-2.5 py-1 transition-colors"
+                  >
+                    Sign up
+                  </Link>
+                </div>
+              </>
             )}
 
             {/* Mobile Menu Toggle */}
@@ -171,10 +180,10 @@ export function Navbar() {
               How It Works
             </Link>
             <Link
-              to={isLoggedIn && (user?.role === 'artisan' || user?.role === 'both') ? '/seller/orders' : '/seller'}
+              to={isLoggedIn && (user?.role === 'artisan' || user?.role === 'seller' || user?.role === 'both') ? '/seller/orders' : '/seller'}
               className="text-sm font-medium text-[#8C3B1E] uppercase tracking-wider py-1 border-b border-stone-200/50"
             >
-              {isLoggedIn && (user?.role === 'artisan' || user?.role === 'both') ? 'Artisan Studio' : 'Sell on SHILPSETU'}
+              {isLoggedIn && (user?.role === 'artisan' || user?.role === 'seller' || user?.role === 'both') ? 'Artisan Studio' : 'Sell on SHILPSETU'}
             </Link>
           </div>
 

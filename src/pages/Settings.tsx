@@ -1,4 +1,5 @@
 import { useState, type ElementType } from 'react';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { GlassSurface, GlassButton } from '@/components/ui';
 import { useAuth } from '@/context/AuthContext';
@@ -72,7 +73,13 @@ function Divider() {
 }
 
 export default function Settings() {
-  const { user, logout } = useAuth();
+  const { user, isLoggedIn, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   // Notification toggles
   const [notifOrderUpdates, setNotifOrderUpdates] = useState(true);
@@ -91,6 +98,10 @@ export default function Settings() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { resetDemoData } = useProducts();
   const [resetToast, setResetToast] = useState(false);
+
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <PageLayout>
@@ -307,7 +318,7 @@ export default function Settings() {
                 <GlassButton
                   variant="ghost"
                   size="sm"
-                  onClick={logout}
+                  onClick={handleLogout}
                   className="flex items-center gap-1.5 text-charcoal/60 hover:text-charcoal"
                 >
                   <LogOut size={14} />

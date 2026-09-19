@@ -16,23 +16,27 @@ const demoUser: User = {
 interface AuthContextValue {
   user: User | null;
   isLoggedIn: boolean;
-  login: (role?: 'buyer' | 'artisan' | 'both') => void;
+  login: (role?: 'buyer' | 'artisan' | 'both' | 'seller', userData?: Partial<User>) => void;
   logout: () => void;
-  updateRole: (role: 'buyer' | 'artisan' | 'both') => void;
+  updateRole: (role: 'buyer' | 'artisan' | 'both' | 'seller') => void;
 }
 
 const Ctx = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(demoUser);
+  const [user, setUser] = useState<User | null>(null);
 
-  const login = useCallback((role: 'buyer' | 'artisan' | 'both' = 'both') => {
-    setUser({ ...demoUser, role });
+  const login = useCallback((role: 'buyer' | 'artisan' | 'both' | 'seller' = 'both', userData?: Partial<User>) => {
+    setUser({
+      ...demoUser,
+      role: (userData?.role || role),
+      ...(userData || {}),
+    });
   }, []);
 
   const logout = useCallback(() => setUser(null), []);
 
-  const updateRole = useCallback((role: 'buyer' | 'artisan' | 'both') => {
+  const updateRole = useCallback((role: 'buyer' | 'artisan' | 'both' | 'seller') => {
     setUser(prev => prev ? { ...prev, role } : null);
   }, []);
 

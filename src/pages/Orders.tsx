@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { Package } from 'lucide-react';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { GlassSurface, GlassButton, ProductImage } from '@/components/ui';
@@ -19,7 +19,12 @@ const statusLabels: Record<string, string> = {
 
 export default function Orders() {
   const { isLoggedIn } = useAuth();
-  const orders = isLoggedIn ? sampleOrders : [];
+
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
+
+  const orders = sampleOrders;
 
   return (
     <PageLayout>

@@ -13,13 +13,29 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [usage, setUsage] = useState<UsageIntent>('shop');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+    setError('');
     setLoading(true);
     try {
-      login();
+      const roleMap: Record<UsageIntent, 'buyer' | 'seller' | 'both'> = {
+        shop: 'buyer',
+        sell: 'seller',
+        both: 'both',
+      };
+      const assignedRole = roleMap[usage];
+      login(assignedRole, {
+        name: name.trim(),
+        email: email.trim(),
+        role: assignedRole,
+      });
       navigate(usage === 'sell' ? '/seller' : '/profile');
     } finally {
       setLoading(false);
@@ -43,6 +59,11 @@ export default function Signup() {
             onSubmit={handleSubmit}
             className="bg-white border border-stone-200/80 rounded-xl p-7 sm:p-8 space-y-5 shadow-xs"
           >
+            {error && (
+              <div className="p-2.5 rounded-md bg-red-50 border border-red-200 text-red-700 text-xs font-sans">
+                {error}
+              </div>
+            )}
             <div>
               <label className="block text-xs font-medium text-stone-700 font-sans mb-1.5">
                 Name

@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { User, Package, Heart, Store, LogOut, ChevronRight, MapPin, RefreshCw, CheckCircle2, Shield, Sparkles } from 'lucide-react';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { Package, Heart, Store, LogOut, ChevronRight, MapPin, RefreshCw, CheckCircle2, Sparkles } from 'lucide-react';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { useAuth } from '@/context/AuthContext';
 import { useProducts } from '@/context/ProductContext';
 
 export default function Profile() {
-  const { user, isLoggedIn, login, logout, updateRole } = useAuth();
+  const { user, isLoggedIn, logout, updateRole } = useAuth();
   const { resetDemoData } = useProducts();
   const [resetNotice, setResetNotice] = useState(false);
   const navigate = useNavigate();
@@ -23,28 +23,10 @@ export default function Profile() {
   };
 
   if (!isLoggedIn || !user) {
-    return (
-      <PageLayout>
-        <section className="py-24 px-6 max-w-sm mx-auto text-center space-y-5">
-          <div className="w-16 h-16 rounded-full bg-stone-200/60 flex items-center justify-center mx-auto text-stone-600">
-            <User size={24} />
-          </div>
-          <h1 className="font-serif text-2xl text-stone-900">Sign in to your account</h1>
-          <p className="text-xs text-stone-500 font-sans">
-            Access your orders, saved craft objects, and artisan store.
-          </p>
-          <button
-            onClick={() => login('both')}
-            className="w-full py-2.5 px-4 rounded-md bg-stone-900 text-white text-xs font-semibold tracking-wider uppercase hover:bg-stone-800 transition-colors shadow-xs"
-          >
-            Sign in (Demo)
-          </button>
-        </section>
-      </PageLayout>
-    );
+    return <Navigate to="/login" replace />;
   }
 
-  const isArtisan = user.role === 'artisan' || user.role === 'both';
+  const isArtisan = user.role === 'artisan' || user.role === 'seller' || user.role === 'both';
 
   return (
     <PageLayout>
@@ -73,7 +55,7 @@ export default function Profile() {
                 key={r}
                 onClick={() => updateRole(r)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium font-sans capitalize transition-all ${
-                  user.role === r
+                  user.role === r || (r === 'artisan' && user.role === 'seller')
                     ? 'bg-stone-900 text-white shadow-xs'
                     : 'text-stone-600 hover:text-stone-900'
                 }`}
